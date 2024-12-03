@@ -40,7 +40,7 @@ dataset/
 Use the following .sh script to preprocess all data.
 
 ```
-sh 
+sh scripts/preprocess_dataset.sh
 ```
 
 ### Vector Database Construct
@@ -48,7 +48,9 @@ sh
 Use the following .sh script to organize the preprocessed dataset into vector indexed database, which will facilitate subsequent retrieval and training tasks.
 
 ```
-sh
+sh scripts/preprocess_rag_dataset.sh
+
+sh scripts/rag/rag_construct/default_euc_sql_spider.sh
 ```
 
 
@@ -56,5 +58,5 @@ sh
 
 ## Model Train
 
-Or you can train our category model and ranking model from script by yourself.
+Or you can train the category and ranking models from scratch here.
 

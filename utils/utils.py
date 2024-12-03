@@ -1,4 +1,7 @@
+import os
 import json
+import datetime
+import torch
 
 from typing import Dict, List
 
@@ -161,3 +164,82 @@ def eval_spider_difficulty(sql: Dict):
         return "hard"
     else:
         return "extra"
+
+
+class dotdict(dict):
+    __getattr__ = dict.__getitem__
+    __setattr__ = dict.__setitem__
+    __delattr__ = dict.__delitem__
+
+
+class NullContextManager(object):
+    def __init__(self, dummy_resource=None):
+        self.dummy_resource = dummy_resource
+    def __enter__(self):
+        return self.dummy_resource
+    def __exit__(self, *args):
+        pass
+
+
+def create_directory(path):
+    if os.path.exists(path):
+        print('\n')
+        print_message("#> Note: Output directory", path, 'already exists\n\n')
+    else:
+        print('\n')
+        print_message("#> Creating directory", path, '\n\n')
+        os.makedirs(path)
+
+
+def flatten(L):
+    # return [x for y in L for x in y]
+
+    result = []
+    for _list in L:
+        result += _list
+
+    return result
+        
+        
+
+def print_message(*s, condition=True, pad=False):
+    s = ' '.join([str(x) for x in s])
+    msg = "[{}] {}".format(datetime.datetime.now().strftime("%b %d, %H:%M:%S"), s)
+
+    if condition:
+        msg = msg if not pad else f'\n{msg}\n'
+        print(msg, flush=True)
+
+
+    return msg
+
+
+def timestamp(daydir=False):
+    format_str = f"%Y-%m{'/' if daydir else '-'}%d{'/' if daydir else '_'}%H.%M.%S"
+    result = datetime.datetime.now().strftime(format_str)
+    return result
+
+    
+def torch_load_dnn(path):
+    if path.startswith("http:") or path.startswith("https:"):
+        dnn = torch.hub.load_state_dict_from_url(path, map_location='cpu')
+    else:
+        dnn = torch.load(path, map_location='cpu')
+    
+    return dnn
+
+    
+def save_checkpoint(path, epoch_idx, mb_idx, model, optimizer, arguments=None):
+    print(f"#> Saving a checkpoint to {path} ..")
+
+    if hasattr(model, 'module'):
+        model = model.module  # extract model from a distributed/data-parallel wrapper
+
+    checkpoint = {}
+    checkpoint['epoch'] = epoch_idx
+    checkpoint['batch'] = mb_idx
+    checkpoint['model_state_dict'] = model.state_dict()
+    checkpoint['optimizer_state_dict'] = optimizer.state_dict()
+    checkpoint['arguments'] = arguments
+
+    torch.save(checkpoint, path)
