@@ -54,9 +54,28 @@ sh scripts/rag/rag_construct/default_euc_sql_spider.sh
 
 ## Run
 
-Execute the following code to run our main program.
+Use the category model and ranking model to get category predictions and ranked few-shot examples previously.
+
+For category prediction, run the following script.
+
 ```
-python main.py --dataset <dataset> --output predict_output.txt --gold gold_sql.txt
+sh scripts/predict/category_predict.sh
+```
+
+For few-shot example ranking, run the following script.
+
+```
+sh script/predict/few_shot_rank.sh
+```
+
+Execute the following command to run the main generation program.
+```
+python main.py 
+    --dataset <dataset> 
+    --output predict_output.txt 
+    --gold gold_sql.txt
+    --category_prediction pre_sqls/pred_sql_type/dev_spider_pred_sql_type.json
+    --few_shot_ranked pre_sqls/few_shot_ranked/filter/few_shot_ranked.json
 ```
 Please replace the above `<dataset>` with your database path, and make sure `tables.json` exists in the current path.
 
