@@ -1,7 +1,6 @@
 # AID-SQL
 
-AID-SQL is a [description]
-
+Recent research in Text-to-SQL translation has primarily adopted in-context learning methods leveraging large language models (LLMs), achieving significant progress. However, these methods face challenges in their adaptability to natural language questions of varying difficulty and the relevance of the examples provided. Consequently, we propose an adaptive in-context learning approach with difficulty-aware instruction and retrieval-augmented generation to enhance the performance of Text-to-SQL translation, which is called AID-SQL.
 
 ## Installation
 
