@@ -52,9 +52,6 @@ sh scripts/preprocess_rag_dataset.sh
 sh scripts/rag/rag_construct/default_euc_sql_spider.sh
 ```
 
-
-## Run
-
 ## Model Train
 
 Or you can train the category and ranking models from scratch here.
