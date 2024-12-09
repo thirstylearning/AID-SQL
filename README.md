@@ -52,6 +52,14 @@ sh scripts/preprocess_rag_dataset.sh
 sh scripts/rag/rag_construct/default_euc_sql_spider.sh
 ```
 
+## Run
+
+Execute the following code to run our main program.
+```python
+python main.py --dataset <dataset> --output predict_output.txt --gold gold_sql.txt
+```
+Please replace the above `<dataset>` with your database path, and make sure `tables.json` exists in the current path.
+
 ## Model Train
 
 Or you can train the category and ranking models from scratch here.
